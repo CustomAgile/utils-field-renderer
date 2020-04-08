@@ -5,11 +5,15 @@ Ext.define('CustomAgile.ui.renderer.RecordFieldRendererFactory', {
     singleton: true,
 
     getFieldDisplayValue: function (record, field, delimiter, cleanseForExport) {
-        let val = record.get(field);
+        if (!record || !field) {
+            return '';
+        }
+
+        let val = record.get ? record.get(field) : record[field];
         let d = delimiter || ', ';
 
         if (_.isUndefined(val) || val === null) {
-            val = "";
+            val = '';
         }
         else if (typeof val === 'boolean') {
             val = val.toString();
