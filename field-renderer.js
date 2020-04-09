@@ -4,6 +4,18 @@
 Ext.define('CustomAgile.ui.renderer.RecordFieldRendererFactory', {
     singleton: true,
 
+    colorPalette: {
+        '#105cab': 'Dark Blue',
+        '#21a2e0': 'Blue',
+        '#107c1e': 'Green',
+        '#4a1d7e': 'Purple',
+        '#df1a7b': 'Pink',
+        '#ee6c19': 'Burnt Orange',
+        '#f9a814': 'Orange',
+        '#fce205': 'Yellow',
+        '#848689': 'Grey'
+    },
+
     getFieldDisplayValue: function (record, field, delimiter, cleanseForExport) {
         if (!record || !field) {
             return '';
@@ -20,6 +32,9 @@ Ext.define('CustomAgile.ui.renderer.RecordFieldRendererFactory', {
         }
         else if (Ext.isDate(val)) {
             val = Rally.util.DateTime.formatWithDefaultDateTime(val);
+        }
+        else if (field === 'DisplayColor') {
+            val = this.colorPalette[val] || val;
         }
         else if (field === 'Parent') {
             val = (val && (val.FormattedID && val.Name && val.FormattedID + ': ' + val.Name) || val._refObjectName) || (record.get('Feature') && ((record.get('Feature').FormattedID && record.get('Feature').Name && record.get('Feature').FormattedID + ': ' + record.get('Feature').Name) || record.get('Feature')._refObjectName)) || 'No Parent';
