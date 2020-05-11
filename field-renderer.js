@@ -42,9 +42,6 @@ Ext.define('CustomAgile.ui.renderer.RecordFieldRendererFactory', {
         else if (field === 'Release') {
             val = (val && val.Name) || 'Unscheduled';
         }
-        else if (field === 'Parent') {
-            val = (val && val.Name) ? `${val.FormattedID} - ${val.Name}` : '';
-        }
         else if (field === 'Project') {
             val = (val && val.Name) || 'Failed to convert project field';
         }
@@ -56,6 +53,10 @@ Ext.define('CustomAgile.ui.renderer.RecordFieldRendererFactory', {
         }
         else if (field === 'Owner' || field === 'CreatedBy') {
             val = val.DisplayName || (val.FirstName && val.LastName && `${val.FirstName} ${val.LastName}`) || val._refObjectName;
+
+            if (!val && field === 'Owner') {
+                val = 'No Owner';
+            }
         }
         else if (field === 'PreliminaryEstimate') {
             val = `${val.Name} (${val.Value})`;
@@ -63,7 +64,7 @@ Ext.define('CustomAgile.ui.renderer.RecordFieldRendererFactory', {
         else if (field === 'Milestones') {
             if (val.Count) {
                 val = _.map(val._tagsNameArray, (m) => {
-                    return `${m.FormattedID} - ${m.Name}`;
+                    return `${m.FormattedID}: ${m.Name}`;
                 });
                 val = val.join(d);
             }
@@ -72,7 +73,7 @@ Ext.define('CustomAgile.ui.renderer.RecordFieldRendererFactory', {
             }
         }
         else if (field.toLowerCase().indexOf('portfolioitem/') > -1 || field === 'Feature') {
-            val = val && `${val.FormattedID} - ${val.Name}` || 'None';
+            val = val && `${val.FormattedID}: ${val.Name}` || 'None';
         }
         else if (typeof val === 'object') {
             if (val._tagsNameArray) {
@@ -90,31 +91,23 @@ Ext.define('CustomAgile.ui.renderer.RecordFieldRendererFactory', {
         }
 
         if (cleanseForExport) {
-            val = this.cleanseExportValue(val);
+            val = this.cleanseExportValue(val.toString());
         }
 
         return val;
     },
 
     cleanseExportValue(val) {
-        let reHTML = new RegExp('<\/?[^>]+>', 'g');
-        let reNbsp = new RegExp('&nbsp;', 'ig');
+        let reHTML = new RegExp('<\/?[^>]+>', 'gi');
+        let reNbsp = new RegExp('&nbsp;', 'gi');
 
-        if (val && typeof val === "string") {
-            val = val.replace(/,/g, '');
-            val = val.replace(/"/g, "'");
-
-            if (reHTML.test(val)) {
-                val = val.replace('<br>', '\r\n');
-                val = Ext.util.Format.htmlDecode(val);
-                val = Ext.util.Format.stripTags(val);
-            }
-            if (reNbsp.test(val)) {
-                val = val.replace(reNbsp, ' ');
-            }
+        if (reHTML.test(val)) {
+            val = val.replace('<br>', '\r\n');
+            val = Ext.util.Format.htmlDecode(val);
+            val = Ext.util.Format.stripTags(val);
         }
+        val = val.replace(reNbsp, ' ');
 
         return val;
     }
-
 });
