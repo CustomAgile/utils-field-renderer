@@ -1,4 +1,10 @@
 {
     "name": "field-renderer",
-    "version": "0.1.2"
+    "version": "0.1.3",
+    "description": "Converts a given field for a record into an expected string value for displaying in apps and exporting to CSV",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/CustomAgile/utils-field-renderer.git"
+    },
+    "author": "Custom Agile"
 }
