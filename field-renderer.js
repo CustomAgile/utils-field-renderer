@@ -37,7 +37,17 @@ Ext.define('CustomAgile.ui.renderer.RecordFieldRendererFactory', {
             val = this.colorPalette[val] || val;
         }
         else if (field === 'Parent') {
-            val = (val && (val.FormattedID && val.Name && val.FormattedID + ': ' + val.Name) || val._refObjectName) || (record.get('Feature') && ((record.get('Feature').FormattedID && record.get('Feature').Name && record.get('Feature').FormattedID + ': ' + record.get('Feature').Name) || record.get('Feature')._refObjectName)) || 'No Parent';
+            if (val && val.FormattedID && val.Name) {
+                val = val.FormattedID + ': ' + val.Name;
+            } else if (val && val._refObjectName) {
+                val = val._refObjectName;
+            } else if (record.get && record.get('Feature') && record.get('Feature').FormattedID && record.get('Feature').Name) {
+                val = record.get('Feature').FormattedID + ': ' + record.get('Feature').Name;
+            } else if (record.Feature && record.Feature.FormattedID && record.Feature.Name) {
+                val = record.Feature.FormattedID + ': ' + record.Feature.Name;
+            } else {
+                val = 'No Parent';
+            }
         }
         else if (field === 'Release') {
             val = (val && val.Name) || 'Unscheduled';
@@ -52,7 +62,7 @@ Ext.define('CustomAgile.ui.renderer.RecordFieldRendererFactory', {
             val = typeof val.Predecessors === 'number' ? `Predecessors: ${val.Predecessors}; Successors: ${val.Successors}` : '';
         }
         else if (field === 'Owner' || field === 'CreatedBy') {
-            val = val.DisplayName || (val.FirstName && val.LastName && `${val.FirstName} ${val.LastName}`) || val._refObjectName;
+            val = (val && (val.DisplayName || (val.FirstName && val.LastName && `${val.FirstName} ${val.LastName}`) || val._refObjectName)) || "";
 
             if (!val && field === 'Owner') {
                 val = 'No Owner';
