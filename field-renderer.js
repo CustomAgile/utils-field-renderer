@@ -72,7 +72,7 @@ Ext.define('CustomAgile.ui.renderer.RecordFieldRendererFactory', {
             val = `${val.Name} (${val.Value})`;
         }
         else if (field === 'Milestones') {
-            if (val.Count) {
+            if (val._tagsNameArray) {
                 val = _.map(val._tagsNameArray, (m) => {
                     return `${m.FormattedID}: ${m.Name}`;
                 });
