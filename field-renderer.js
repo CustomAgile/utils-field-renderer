@@ -52,6 +52,9 @@ Ext.define('CustomAgile.ui.renderer.RecordFieldRendererFactory', {
         else if (field === 'Release') {
             val = (val && val.Name) || 'Unscheduled';
         }
+        else if (field = 'State') {
+            val = (val && val.Name) || '';
+        }
         else if (field === 'Project') {
             val = (val && val.Name) || 'Failed to convert project field';
         }
@@ -85,6 +88,9 @@ Ext.define('CustomAgile.ui.renderer.RecordFieldRendererFactory', {
         else if (field.toLowerCase().indexOf('portfolioitem/') > -1 || field === 'Feature') {
             val = val && `${val.FormattedID}: ${val.Name}` || 'None';
         }
+        else if (_.isArray(val)) {
+            val = val.join(d);
+        }
         else if (typeof val === 'object') {
             if (val._tagsNameArray) {
                 val = _.map(val._tagsNameArray, (m) => {
@@ -95,9 +101,6 @@ Ext.define('CustomAgile.ui.renderer.RecordFieldRendererFactory', {
             else {
                 val = val.Name || val.value || val._refObjectName || 'Unable to convert field for export';
             }
-        }
-        else if (_.isArray(val)) {
-            val = val.join(d);
         }
 
         if (cleanseForExport) {
