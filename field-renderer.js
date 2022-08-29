@@ -97,8 +97,9 @@ Ext.define('CustomAgile.ui.renderer.RecordFieldRendererFactory', {
                     return m.Name || m.Value;
                 });
                 val = val.join(d);
-            }
-            else {
+            } else if (typeof val.Count === 'number') {
+                val = val.Count;
+            } else {
                 val = val.Name || val.value || val._refObjectName || 'Unable to convert field for export';
             }
         }
