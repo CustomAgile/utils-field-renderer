@@ -1,6 +1,6 @@
 {
   "name": "@customagile/utils-field-renderer",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "Converts a given field for a record into an expected string value for displaying in apps and exporting to CSV",
   "main": "field-renderer.js",
   "repository": {

@@ -52,7 +52,7 @@ Ext.define('CustomAgile.ui.renderer.RecordFieldRendererFactory', {
         else if (field === 'Release') {
             val = (val && val.Name) || 'Unscheduled';
         }
-        else if (field = 'State') {
+        else if (field === 'State') {
             val = (val && val.Name) || '';
         }
         else if (field === 'Project') {
