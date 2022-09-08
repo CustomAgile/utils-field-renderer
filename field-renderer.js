@@ -36,6 +36,9 @@ Ext.define('CustomAgile.ui.renderer.RecordFieldRendererFactory', {
         else if (field === 'DisplayColor') {
             val = this.colorPalette[val] || val;
         }
+        else if (typeof val === 'string') {
+            // Do nothing   
+        }
         else if (field === 'Parent') {
             if (val && val.FormattedID && val.Name) {
                 val = val.FormattedID + ': ' + val.Name;
