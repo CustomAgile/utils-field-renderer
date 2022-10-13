@@ -13,7 +13,8 @@ Ext.define('CustomAgile.ui.renderer.RecordFieldRendererFactory', {
         '#ee6c19': 'Burnt Orange',
         '#f9a814': 'Orange',
         '#fce205': 'Yellow',
-        '#848689': 'Grey'
+        '#848689': 'Grey',
+        'None': 'N/A'
     },
 
     getFieldDisplayValue: function (record, field, delimiter, cleanseForExport) {
@@ -34,7 +35,7 @@ Ext.define('CustomAgile.ui.renderer.RecordFieldRendererFactory', {
             val = Rally.util.DateTime.formatWithDefaultDateTime(val);
         }
         else if (field === 'DisplayColor') {
-            val = this.colorPalette[val] || val;
+            val = this.colorPalette[val || 'None'] || val;
         }
         else if (typeof val === 'string') {
             // Do nothing   
