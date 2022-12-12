@@ -1,6 +1,6 @@
 {
   "name": "@customagile/utils-field-renderer",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "Converts a given field for a record in Rally (CA Agile Central) into an expected string value for displaying in apps and exporting to CSV",
   "main": "field-renderer.js",
   "repository": {
